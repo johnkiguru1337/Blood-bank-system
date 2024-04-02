@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main role="main" class="container">
+ <h1>Blood Transfusion Data</h1>
+    {% if messages.error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <th>Recency(Months)</th>
+                <th>Frequency(times)</th>
+                <th>Monetary (c.c. blood)</th>
+                <th>Time (months)</th>
+                <th>whether she/he will donate next month</th>
+            </thead>
+            <tbody>
+                {% for target_value_count in target_value_counts %} 
+                <tr>
+                    {% for i in target_value_count %}
+                        <td>{{ i }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h1>Blood donors</h1>
+<div class="row">
+    <div class="col-md-12">
+    <table class="table table-bordered">
+        <thead>
+            <th>Donor</th>
+            <th>Frequency(times)</th>
+            <th>Monetary (c.c. blood)</th>
+            <th>Time (months)</th>
+            <th>whether she/he will donate next month</th>
+            <th>Call upon</th>
+        </thead>
+        <tbody>
+            {% for donor in donors %}
+                {% for i in count %}
+                    {% if i.donor == donor.donor %}
+                    <tr>
+                        <td>{{donor.donor}}</td>
+                                <td>{{ counts|add:1 }}</td>
+                        <td>Null</td>
+                        <td>{{ 6 }} months</td>
+                        <td><button class="btn btn-info"><a href="{% url 'predict_donor' i.id_donor %}">Predict</a></button></td>
+                        <td><button class="btn btn-info"><a href="{% url 'send_email' i.id_donor %}">Send email</a></button></td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</main>
+
+{% endblock %}
+
+

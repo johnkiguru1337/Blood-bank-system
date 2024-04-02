@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main role="main" class="container">
+<legend class="border-bottom mb-4">Donate Blood save lives</legend>
+{% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="content-section">
+    <form method="post">
+        {% csrf_token %}  
+        <fieldset class="form-group">
+            <div class="form-group">
+                <label for="blood_type" class="form-label">Blood Type:</label>
+                <select type="text" name="blood_type" id="bl" class="form-control" for="blood_type" required>
+                  <option value="">-- Select Blood Type --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+            </div>
+        </fieldset>
+        <br>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Submit request</button>
+        </div>  
+    </form>
+</div>
+</main>
+
+{% endblock %}

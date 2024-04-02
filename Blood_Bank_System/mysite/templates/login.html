@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main role="main" class="container">
+<legend class="border-bottom mb-4">Log In</legend>
+{% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="content-section">
+    <form method="post">
+        {% csrf_token %}  
+        <fieldset class="form-group">
+            <div class="form-group">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+        </fieldset>
+        <br>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Log In</button>
+        </div>  
+    </form>
+</div>
+<div class="border-top pt-3">
+        <small class="text-muted">Do you need an account? <a class="ml-2" href="{%  url 'signup' %}">Sign Up Now</a></small></div>
+</div>
+</main>
+
+{% endblock %}

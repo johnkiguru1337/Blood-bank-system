@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main role="main" class="container">
+<h1>Dashboard</h1>
+<div class="row">
+      <div class="col-md-12">
+    	<h3>Unapproved Patients</h3>
+      	<table class="table table-bordered">
+        <thead>
+			     <tr>
+            	<th>Username</th>
+              <th>Approve/Decline</th>
+            	<th>Blood Type</th>
+          	</tr>
+        </thead>
+       {% for patient  in patients %}
+        <tbody>
+			     <tr>
+              <td>{{ patient.patient }}</td>
+              <td><button class="btn btn-info"><a href="{% url 'approve_patient' patient.id %}">Approve Patient request</a></button></td>
+              <td>{{ patient.blood_type }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+      	</table>
+		</div>
+    	</div>
+
+</main>
+
+{% endblock %}

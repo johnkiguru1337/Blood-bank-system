@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main role="main" class="container">
+<h1>Dashboard</h1>
+<div class="row">
+        <div class="col-md-12">
+  		{% for group_name, users in group_users.items %}
+    	{% if group_name != 'StaffGroup' or request.user.is_staff %}
+    	{% if group_name != 'PatientGroup' %}  
+    	<h3>{{ group_name }}</h3>
+    	{% endif %}
+      	<table class="table table-bordered">
+        <thead>
+          {%if group_name == "DonorGroup" %}
+			     <tr>
+            	<th>Username</th>
+              {% if user.is_staff %}
+                <th>Approve/Decline</th>
+              {% elif True %}
+                {% for group in user.groups.all %}
+                  {% if group.name == 'StaffGroup' %}
+                    <th>Approve/Decline</th>
+                  {% else %}
+                    <th>Approved</th>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            	<th>Blood Type</th>
+          	</tr>
+          {% endif %}
+        </thead>
+        <tbody>
+          {% for user in users %}
+          {%if group_name == "DonorGroup" %}
+			     <tr>
+              {% for donor in donors %}
+              {% if donor.name == user.username %}
+              <td>{{ user.username }}</td>
+              <td>{{ donor.approved }}</td>
+              <td>{{ donor.blood_type }}</td>
+              {% endif %}
+              {% endfor %}
+            </tr>
+          {% elif group_name == "StaffGroup" %}
+            <tr>
+              <td>{{ user.username }}</td>
+            </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      	</table>
+    	{% endif %}
+  		{% endfor %}
+		</div>
+    	</div>
+
+<div class="row">
+        <div class="col-md-12">
+  		{% for group_name, users in group_users.items %}
+    	{% if group_name != 'StaffGroup' and group_name != 'DonorGroup' %}  
+    	<h3>{{ group_name }}</h3>
+      	<table class="table table-bordered">
+        <thead>
+          {%if group_name == "PatientGroup" %}
+            <tr>
+            	<th>Username</th>
+            	<th>Has Requested blood</th>
+            	<th>Blood Type</th>
+            	<th>Approved</th>
+          	</tr>
+          {% endif %}
+        </thead>
+        <tbody>
+          {% for request in blood_request %}
+          {% if group_name == "PatientGroup" %}
+            <tr>
+              <td>{{ request.patient }}</td>
+              <td>Yes</td>
+              <td>{{ request.blood_type }}</td>
+              <td>{{ request.status }}</td>
+            </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      	</table>
+    	{% endif %}
+  		{% endfor %}
+		</div>
+    	</div>
+
+
+<div class="row">
+        <div class="col-md-12">
+      <h3>Available Blood</h3>
+        <table class="table table-bordered">
+        <thead>
+            <tr>
+              <th>Blood type</th>
+              <th>Units</th>
+              <th>Expiry</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for available in available_blood %}
+            <tr>
+              <td>{{ available.blood_type }}</td>
+              <td>{{ available.quantity }}</td>
+              <td>{{ available.expiry_date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    </div>
+
+</main>
+
+{% endblock %}
